@@ -19,14 +19,15 @@ fn example(points: &[Point]) {
 
 	// iterate all points to calculate something
 	for point in points.iter() {
-		// space to insert result, can be part of a larger memory location
-		//  every entry contains the distance and the point index
-		//  initial values are never read, so may be left uninitialized with unsafe rust
+		// space to insert result
+		//   can be part of a larger memory location
+		//   every entry contains the distance and the point index
+		//   initial values are never read
 		let mut neighbors = [(0.0, 0); MAX_NEIGHBORS];
 
 		// calculate nearest points
-		//  result at offset 0 is the original point
-		//  result at offset 1 is the nearest neighbor in the search radius
+		//   result at offset 0 is the original point
+		//   result at offset 1 is the nearest neighbor in the search radius
 		let count = kd_tree.k_nearest(point, &mut neighbors, MAX_DISTANCE);
 
 		// create a subslice so neighbors only contains valid entries

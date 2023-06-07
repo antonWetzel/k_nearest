@@ -1,8 +1,8 @@
 [package]
 name = "k_nearest"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
-license-file = "license.md"
+license-file = "license"
 description = "K-nearest neighbors search for points with maximal search radius"
 homepage = "https://github.com/antonWetzel/k_nearest"
 repository = "https://github.com/antonWetzel/k_nearest"
