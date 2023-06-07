@@ -6,9 +6,9 @@ where
 	fn distance_plane(position: &[Value; N], plane: Value, dimension: usize) -> Value;
 }
 
-pub struct CartesionDistanceSquared;
+pub struct EuclideanDistanceSquared;
 
-impl<const N: usize, Value> Metric<N, Value> for CartesionDistanceSquared
+impl<const N: usize, Value> Metric<N, Value> for EuclideanDistanceSquared
 where
 	Value: PartialOrd
 		+ Default

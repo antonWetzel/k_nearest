@@ -40,28 +40,16 @@ where
 		positions: &mut [([Value; N], usize)],
 	) {
 		// choose middle with bias to the right, so recursion is deeper on the left
+		//   bias direction must match median finding scheme
 		let middle = (upper - lower + 1) / 2 + lower;
 		Self::partition(middle, dim, lower, upper, positions);
 		tree[index] = Some((positions[middle].0, positions[middle].1));
+		let next_dim = (dim + 1) % N;
 		if lower < middle {
-			Self::create_tree(
-				index * 2 + 1,
-				(dim + 1) % 3,
-				tree,
-				lower,
-				middle - 1,
-				positions,
-			);
+			Self::create_tree(index * 2 + 1, next_dim, tree, lower, middle - 1, positions);
 		}
 		if middle < upper {
-			Self::create_tree(
-				index * 2 + 2,
-				(dim + 1) % 3,
-				tree,
-				middle + 1,
-				upper,
-				positions,
-			);
+			Self::create_tree(index * 2 + 2, next_dim, tree, middle + 1, upper, positions);
 		}
 	}
 
@@ -89,7 +77,7 @@ where
 		}
 	}
 
-	pub fn nearest(&self, point: &Point, data: &mut [(Value, usize)], max_distance: Value) -> usize {
+	pub fn k_nearest(&self, point: &Point, data: &mut [(Value, usize)], max_distance: Value) -> usize {
 		self.nearest_to_position(&Ada::get_all(point), data, max_distance)
 	}
 
@@ -116,17 +104,18 @@ where
 		if diff < best_set.distance() {
 			best_set.insert((diff, point_index));
 		}
+		let next_dim = (dim + 1) % N;
 		let is_left = position[dim] < point[dim];
 		if is_left {
-			self.search_nearest(index * 2 + 1, position, (dim + 1) % 3, best_set);
+			self.search_nearest(index * 2 + 1, position, next_dim, best_set);
 		} else {
-			self.search_nearest(index * 2 + 2, position, (dim + 1) % 3, best_set);
+			self.search_nearest(index * 2 + 2, position, next_dim, best_set);
 		}
 		if Met::distance_plane(&position, point[dim], dim) < best_set.distance() {
 			if is_left {
-				self.search_nearest(index * 2 + 2, position, (dim + 1) % 3, best_set);
+				self.search_nearest(index * 2 + 2, position, next_dim, best_set);
 			} else {
-				self.search_nearest(index * 2 + 1, position, (dim + 1) % 3, best_set);
+				self.search_nearest(index * 2 + 1, position, next_dim, best_set);
 			}
 		}
 	}
