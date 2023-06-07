@@ -1,1 +1,2 @@
-# k-nearest
+# k_nearest
+
