@@ -1,6 +1,7 @@
 # k_nearest
 
-Find k-nearest neighbors for a list of points with arbitrary dimensions
+- find the k-nearest neighbors for a list of points with arbitrary dimensions
+- please write an issue for any bugs or feature requests
 
 ## Code example
 
@@ -23,6 +24,8 @@ fn example(points: &[Point]) {
 		//   can be part of a larger memory location
 		//   every entry contains the distance and the point index
 		//   initial values are never read
+		//   'neighbor.0' is the distance to the query point
+		// 	 'neighbor.1' is the index in the list of points
 		let mut neighbors = [(0.0, 0); MAX_NEIGHBORS];
 
 		// calculate nearest points
@@ -85,6 +88,7 @@ impl k_nearest::Adapter<3, f32, Point> for Adapter {
 
 ```rust
 // use euclidean distance
+//   the resulting distances are all squared
 type Metric = k_nearest::EuclideanDistanceSquared;
 
 // or define own metric
